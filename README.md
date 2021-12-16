@@ -5,7 +5,7 @@ A purple theme for lots of different apps made with love by That Data Person Lim
 
 ---
 
-Available on:
+### Available on:
 - Chrome
   - [GitHub repo](https://github.com/thatdataperson/ThatDataPurple.Chrome)
   - [chrome web store](https://chrome.google.com/webstore/detail/thatdatapurplechrome/eikanpoghdlfifddajgjlfahfoodipjo)
@@ -21,7 +21,7 @@ Available on:
 
 ---
 
-You can also make your own theme for:
+### You can also make your own theme for:
 - [Slack](https://slack.com/)
   - Follow [these](https://slack.com/intl/en-gb/help/articles/205166337-Change-your-Slack-theme) instructions
   - Use the following scheme: #4320cc,#593ED3,#CC2053,#FFFFFF,#593ED3,#FFFFFF,#CC2053,#593ED3
