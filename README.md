@@ -18,7 +18,9 @@ A purple theme for lots of different apps made with love by That Data Person Lim
 - Visual Studio 2022
   - [GitHub repo](https://github.com/thatdataperson/ThatDataPurple.VS2022)
   - [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ThatDataPerson.themeThatDataPurpleVS2022)
-
+- Visual Studio Code 
+  -  [Github repo](https://github.com/thatdataperson/ThatDataPurple.VSCode)
+  -  [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ThatDataPerson.thatdatapurple)
 ---
 
 ### You can also make your own theme for:
