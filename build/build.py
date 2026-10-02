@@ -14,12 +14,14 @@ WCAG target, and writes palette/CONTRAST.md either way.
 """
 import json
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
 import visualstudio  # noqa: E402
+import vs2026  # noqa: E402
 import vscode  # noqa: E402
 from colour import contrast  # noqa: E402
 
@@ -49,6 +51,13 @@ def main():
             xml = f.read()
         r = visualstudio.Recolourer(palette)
         out = r.recolour(xml, version)
+        # Anything the theme doesn't define falls back to VS's Dark theme rather than to nothing.
+        out = re.sub(r'(<Theme Name="[^"]+" GUID="\{[^}]+\}")(>)', r'\1 FallbackId="%s"\2' % vs2026.DARK_FALLBACK, out, count=1)
+        if version == 'VS2022':
+            # The VS2022 extension also installs on VS 2026; add the colours its redesigned UI reads.
+            cats = vs2026.categories(palette)
+            out = out.replace('\t</Theme>', vs2026.xml(cats) + '\t</Theme>', 1)
+            checks += vs2026.checks(cats, version)
         with open(path, 'w', encoding='utf-8-sig', newline='') as f:
             f.write(out)
         checks += r.checks

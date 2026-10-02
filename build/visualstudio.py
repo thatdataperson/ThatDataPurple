@@ -18,8 +18,12 @@ EDITOR_CATEGORIES = {
 }
 
 TEXT_WORDS = ('text', 'glyph', 'foreground', 'hyperlink', 'link', 'label', 'caption', 'watermark',
-              'arrow', 'checkmark', 'icon', 'heading', 'header', 'h1', 'h2', 'title')
-SURFACE_OVERRIDES = ('background', 'titlebar', 'tab', 'button', 'bar', 'tile', 'item', 'border', 'bubble')
+              'arrow', 'checkmark')
+# Words that usually mean text, unless the name also says it's a surface (ToolboxHeadingBegin,
+# PopupSectionHeaderGradientEnd, ToolboxIconShadow...).
+WEAK_TEXT_WORDS = ('icon', 'heading', 'header', 'h1', 'h2', 'title')
+SURFACE_HINTS = ('begin', 'end', 'middle', 'gradient', 'accent', 'background', 'highlight', 'shadow',
+                 'tab', 'bar', 'button', 'row', 'panel')
 BORDER_WORDS = ('border', 'separator', 'line', 'rule', 'stroke', 'outline', 'divider', 'snaplines', 'grip')
 STATE_WORDS = ('selected', 'pressed', 'mouseover', 'mousedown', 'hover', 'hot', 'checked', 'focused', 'down')
 
@@ -73,6 +77,8 @@ def role(name, tag, has_pair):
         return 'text'
     if any(w in n for w in BORDER_WORDS):
         return 'border'
+    if any(w in n for w in WEAK_TEXT_WORDS) and not any(w in n for w in SURFACE_HINTS):
+        return 'text'
     return 'surface'
 
 
