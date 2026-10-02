@@ -6,6 +6,8 @@ The theme repos are expected to be cloned next to this one:
     ThatDataPurple.VSCode/
     ThatDataPurple.VS2019/
     ThatDataPurple.VS2022/
+    ThatDataPurple.Chrome/
+    ThatDataPurple.Firefox/   (Firefox, plus Thunderbird in thunderbird/)
 
 Run from anywhere:  python build/build.py  [path-to-folder-holding-the-repos]
 
@@ -16,10 +18,12 @@ import json
 import os
 import re
 import sys
+import zipfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
+import browsers  # noqa: E402
 import visualstudio  # noqa: E402
 import vs2026  # noqa: E402
 import vscode  # noqa: E402
@@ -63,12 +67,44 @@ def main():
         checks += r.checks
         print('wrote', path)
 
+    checks += build_browsers(palette, parent)
+
     failures = [(n, fg, bg, need, contrast(fg, bg)) for n, fg, bg, need in checks if contrast(fg, bg) < need]
     write_report(palette, checks, failures)
     print(f'{len(checks)} contrast checks, {len(failures)} below target')
     for n, fg, bg, need, got in failures:
         print(f'  FAIL {n}: {fg} on {bg} = {got:.2f} (needs {need})')
     return 1 if failures else 0
+
+
+def build_browsers(palette, parent):
+    # (repo, folder holding manifest.json, manifest, tab-indented, package to write)
+    targets = [
+        ('ThatDataPurple.Chrome', 'chrome-theme', browsers.chrome(palette), True, 'ThatDataPurple.Chrome.zip'),
+        ('ThatDataPurple.Firefox', '', browsers.firefox(palette), False, 'ThatDataPurple.Firefox.xpi'),
+        ('ThatDataPurple.Firefox', 'thunderbird', browsers.thunderbird(palette), False, 'ThatDataPurple.Thunderbird.xpi'),
+    ]
+    built = False
+    for repo, folder, manifest, tabs, package in targets:
+        root = os.path.join(parent, repo)
+        if not os.path.exists(root):
+            continue
+        built = True
+        src = os.path.join(root, folder)
+        os.makedirs(os.path.join(src, 'images'), exist_ok=True)
+        browsers.write(manifest, os.path.join(src, 'manifest.json'), tabs)
+        icon = manifest['icons']['128']
+        with open(os.path.join(HERE, 'templates', 'icon128.png'), 'rb') as f, open(os.path.join(src, icon), 'wb') as g:
+            g.write(f.read())
+        os.makedirs(os.path.join(root, 'bin', 'Release'), exist_ok=True)
+        with zipfile.ZipFile(os.path.join(root, 'bin', 'Release', package), 'w', zipfile.ZIP_DEFLATED) as z:
+            for name in ('manifest.json', icon):
+                info = zipfile.ZipInfo(name, date_time=(2026, 1, 1, 0, 0, 0))  # fixed date: repeatable builds
+                info.compress_type = zipfile.ZIP_DEFLATED
+                with open(os.path.join(src, name), 'rb') as f:
+                    z.writestr(info, f.read())
+        print('wrote', os.path.join(src, 'manifest.json'), '+', package)
+    return browsers.checks(palette) if built else []
 
 
 def write_report(p, checks, failures):
