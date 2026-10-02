@@ -26,4 +26,23 @@ A purple theme for lots of different apps made with love by That Data Person Lim
 ### You can also make your own theme for:
 - [Slack](https://slack.com/)
   - Follow [these](https://slack.com/intl/en-gb/help/articles/205166337-Change-your-Slack-theme#import-your-legacy-theme) instructions
-  - Use the following scheme: #4320CC,#4320FF,#593ED3,#CC2053
+  - Use the following scheme: #0D0629,#1B1048,#4320CC,#9580E6
+
+---
+
+### Palette and build
+
+The 2026 colours follow the That Data Person branding (brand purple `#4320CC`, light purple `#9580E6`, dark `#0D0629`).
+[`palette/palette.json`](palette/palette.json) is the single source for every theme, and
+[`palette/CONTRAST.md`](palette/CONTRAST.md) lists the WCAG contrast ratios. All text meets AA (4.5:1) against the
+editor background, current line and selection.
+
+To rebuild the VS Code and Visual Studio themes, clone the theme repos next to this one and run:
+
+```
+python build/build.py
+```
+
+It writes the VS Code theme JSON and both `.vstheme` files, checks contrast, and exits non-zero if any
+pair falls below its target. The Visual Studio themes are re-coloured from the original exports kept in
+`build/templates/`, so rebuilding always gives the same result.
