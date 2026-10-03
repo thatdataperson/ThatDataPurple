@@ -7,7 +7,7 @@ Thunderbird also reads the sidebar_* keys for its folder pane and message list.
 """
 import json
 
-from colour import rgb
+from colour import blend, rgb
 
 VERSION = '2026.10.0'
 AUTHOR = 'That Data Person Limited (www.thatdataperson.com)'
@@ -102,6 +102,9 @@ def firefox(p):
 def thunderbird(p):
     r = roles(p)
     colors = _gecko_colors(r)
+    # Thunderbird draws the message header (sender, subject, date, header buttons) in the background-tab
+    # text colour on the toolbar purple, and fades some labels further, so it needs white, not muted.
+    colors['tab_background_text'] = r['tabText']
     # Thunderbird-only keys, declared in theme_experiment below. Its window background reads --lwt-frame,
     # which the standard frame keys don't set (as of Thunderbird 157), and the message list reads
     # --tree-view-bg rather than the sidebar colours. The --layout-background-* greys (reading pane,
@@ -153,7 +156,11 @@ def checks(p):
         ('address bar outline', 'fieldBorder', 'toolbar'), ('address bar focus outline', 'fieldFocusBorder', 'toolbar'),
         ('attention icon', 'attention', 'toolbar'),
     ]
+    # Thunderbird's message header: background-tab text on the toolbar, with some labels at reduced opacity.
+    header = [('Thunderbird message header text', 1.0), ('Thunderbird message header address (90%)', 0.9),
+              ('Thunderbird message header labels (70%)', 0.7)]
     return ([(f'Browsers {n}', r[f], r[b], 4.5) for n, f, b in text]
+            + [(n, blend(r['tabText'], r['toolbar'], a), r['toolbar'], 4.5) for n, a in header]
             + [(f'Browsers {n}', r[f], r[b], 3.0) for n, f, b in ui])
 
 
