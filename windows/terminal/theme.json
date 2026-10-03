@@ -1,0 +1,16 @@
+{
+    "name": "ThatDataPurple",
+    "window": {
+        "applicationTheme": "dark",
+        "useMica": false
+    },
+    "tabRow": {
+        "background": "#0D0629FF",
+        "unfocusedBackground": "#0D0629FF"
+    },
+    "tab": {
+        "background": "terminalBackground",
+        "unfocusedBackground": "#0D0629FF",
+        "showCloseButton": "always"
+    }
+}

@@ -9,6 +9,8 @@ The theme repos are expected to be cloned next to this one:
     ThatDataPurple.Chrome/
     ThatDataPurple.Firefox/   (Firefox, plus Thunderbird in thunderbird/)
 
+The Windows Terminal scheme and the Windows 11 theme pack are written into this repo's windows/ folder.
+
 Run from anywhere:  python build/build.py  [path-to-folder-holding-the-repos]
 
 Repos that are not cloned are skipped. The build fails (exit 1) if any checked pair falls below its
@@ -27,6 +29,7 @@ import browsers  # noqa: E402
 import visualstudio  # noqa: E402
 import vs2026  # noqa: E402
 import vscode  # noqa: E402
+import windows  # noqa: E402
 from colour import contrast  # noqa: E402
 
 ROOT = os.path.dirname(HERE)
@@ -68,6 +71,11 @@ def main():
         print('wrote', path)
 
     checks += build_browsers(palette, parent)
+
+    # Windows Terminal + Windows 11 theme pack live in this repo, under windows/.
+    for path in windows.build(palette, os.path.join(ROOT, 'windows'), os.path.join(HERE, 'templates')):
+        print('wrote', path)
+    checks += windows.checks(palette)
 
     failures = [(n, fg, bg, need, contrast(fg, bg)) for n, fg, bg, need in checks if contrast(fg, bg) < need]
     write_report(palette, checks, failures)
