@@ -1,0 +1,48 @@
+{
+  "$comment": "ThatDataPurple palette (2026 rebrand). Brand colours come from thatdataperson.com/branding. Every text colour is checked against the surfaces by build/build.py (WCAG 2.2: 4.5:1 for text, 3:1 for UI components).",
+  "brand": {
+    "purple": "#4320CC",
+    "lightPurple": "#9580E6",
+    "dark": "#0D0629"
+  },
+  "surface": {
+    "ink0": "#0D0629",
+    "ink1": "#120A33",
+    "ink2": "#1B1048",
+    "ink3": "#271862",
+    "selection": "#33247D",
+    "border": "#2E2070",
+    "primary": "#4320CC",
+    "primaryHover": "#5236D6"
+  },
+  "text": {
+    "fg": "#ECE8FA",
+    "bright": "#FFFFFF",
+    "muted": "#B3ABD6",
+    "subtle": "#A39BCB",
+    "disabled": "#8C84B8",
+    "lineNumber": "#8A80BA",
+    "accent": "#9580E6",
+    "link": "#B9A8FF"
+  },
+  "syntax": {
+    "comment": "#A39ACD",
+    "keyword": "#AA94FF",
+    "operator": "#D3CCF0",
+    "function": "#7CC4FF",
+    "string": "#A6E3A1",
+    "number": "#FFB38A",
+    "type": "#FFD480",
+    "property": "#F5A8D0",
+    "tag": "#FF8FA3",
+    "escape": "#6FE0D2",
+    "parameter": "#F0C6A0",
+    "namespace": "#C9C2E8"
+  },
+  "status": {
+    "error": "#FF7A8A",
+    "warning": "#FFCB6B",
+    "info": "#7CC4FF",
+    "success": "#7FD99A"
+  }
+}
