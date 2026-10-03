@@ -51,7 +51,8 @@ def chrome(p):
     return {
         'manifest_version': 3,
         'name': 'ThatDataPurple.Chrome',
-        'description': 'A purple theme for Chrome and Edge by That Data Person Limited.',
+        'description': 'A purple theme for Chrome, Edge and Brave'
+                       ' in the That Data Person brand colours, by That Data Person Limited.',
         'version': VERSION,
         'author': AUTHOR,
         'icons': {'128': 'images/ThatDataPurple.icon.png'},
@@ -88,7 +89,7 @@ def firefox(p):
         'manifest_version': 2,
         'version': VERSION,
         'name': 'ThatDataPurple',
-        'description': 'A purple theme for Firefox by That Data Person Limited.',
+        'description': 'A purple theme for Firefox in the That Data Person brand colours, by That Data Person Limited.',
         'author': AUTHOR,
         'icons': {'128': 'images/ThatDataPurple.icon.png'},
         'theme': {
@@ -124,7 +125,7 @@ def thunderbird(p):
         'manifest_version': 2,
         'version': VERSION,
         'name': 'ThatDataPurple',
-        'description': 'A purple theme for Thunderbird by That Data Person Limited.',
+        'description': 'A purple theme for Thunderbird in the That Data Person brand colours, by That Data Person Limited.',
         'author': AUTHOR,
         'browser_specific_settings': {'gecko': {'id': THUNDERBIRD_ID, 'strict_min_version': '128.0'}},
         'icons': {'128': 'images/ThatDataPurple.icon.png'},

@@ -1,5 +1,5 @@
 # ThatDataPurple
-A purple theme for lots of different apps made with love by That Data Person Limited.
+A purple theme for lots of different apps in the That Data Person brand colours, by That Data Person Limited.
 
 ![ThatDataPurple](https://github.com/thatdataperson/ThatDataPurple/blob/main/images/ThatDataPurple.preview.png?raw=true)
 
