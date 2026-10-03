@@ -73,7 +73,7 @@ def main():
     checks += build_browsers(palette, parent)
 
     # Windows Terminal + Windows 11 theme pack live in this repo, under windows/.
-    for path in windows.build(palette, os.path.join(ROOT, 'windows'), os.path.join(HERE, 'templates')):
+    for path in windows.build(palette, os.path.join(ROOT, 'windows')):
         print('wrote', path)
     checks += windows.checks(palette)
 

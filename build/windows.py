@@ -134,37 +134,30 @@ def theme_file(p):
     ])
 
 
-def wallpaper(p, logo_path, out, size=(3840, 2160)):
-    """Brand dark with soft purple light, and the dark-background logo in the middle."""
+def wallpaper(p, out, size=3840):
+    """A diagonal shift from brand dark (top left) to brand purple (bottom right), with no logo or text.
+
+    Square, so 'fill' crops it sensibly on landscape and portrait screens alike."""
     import numpy as np
     from PIL import Image
 
     from colour import rgb
 
-    w, h = size
-    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
-    img = np.empty((h, w, 3), np.float32)
-    img[:] = rgb(p['brand']['dark'])
-
-    def glow(cx, cy, radius, colour, strength):
-        d = np.sqrt(((xx - cx * w) / (radius * w)) ** 2 + ((yy - cy * h) / (radius * w)) ** 2)
-        a = (np.clip(1 - d, 0, 1) ** 2.2 * strength)[..., None]
-        img[:] = img * (1 - a) + np.array(rgb(colour), np.float32) * a
-
-    glow(0.82, 0.08, 0.62, p['brand']['purple'], 0.55)
-    glow(0.12, 1.02, 0.48, p['brand']['lightPurple'], 0.16)
-    # A little fixed noise stops the dark gradient banding in the JPEG.
+    yy, xx = np.mgrid[0:size, 0:size].astype(np.float32) / (size - 1)
+    t = np.clip((xx + yy) / 2, 0, 1)
+    t = t * t * (3 - 2 * t)  # smoothstep: longer dark and purple ends, soft middle
+    dark, purple = (np.array(rgb(p['brand'][k]), np.float32) for k in ('dark', 'purple'))
+    img = dark + (purple - dark) * t[..., None]
+    # A faint lift of light purple towards the bottom-right corner keeps the purple end from looking flat.
+    d = np.sqrt((1 - xx) ** 2 + (1 - yy) ** 2) / 0.9
+    a = (np.clip(1 - d, 0, 1) ** 2 * 0.18)[..., None]
+    img = img * (1 - a) + np.array(rgb(p['brand']['lightPurple']), np.float32) * a
+    # A little fixed noise stops the gradient banding in the JPEG.
     img += np.random.default_rng(2026).normal(0, 1.1, img.shape).astype(np.float32)
-    base = Image.fromarray(np.clip(img, 0, 255).astype(np.uint8), 'RGB')
-
-    logo = Image.open(logo_path).convert('RGBA')
-    lw = round(w * 0.34)
-    logo = logo.resize((lw, round(logo.height * lw / logo.width)), Image.LANCZOS)
-    base.paste(logo, ((w - logo.width) // 2, round(h * 0.46 - logo.height / 2)), logo)
-    base.save(out, quality=92, subsampling=0, optimize=True)
+    Image.fromarray(np.clip(img, 0, 255).astype(np.uint8), 'RGB').save(out, quality=92, subsampling=0, optimize=True)
 
 
-def build(p, out_root, templates):
+def build(p, out_root):
     """Writes windows/terminal and windows/theme under out_root, plus the .deskthemepack. Returns paths written."""
     written = []
     term = os.path.join(out_root, 'terminal')
@@ -188,7 +181,7 @@ def build(p, out_root, templates):
     with open(theme_path, 'w', encoding='utf-8-sig', newline='') as f:
         f.write(theme_file(p))
     jpg = os.path.join(bgdir, WALLPAPER)
-    wallpaper(p, os.path.join(templates, 'logo-dark-2000w.png'), jpg)
+    wallpaper(p, jpg)
     written += [theme_path, jpg]
 
     pack = os.path.join(out_root, 'bin', 'Release', f'{NAME}.deskthemepack')
