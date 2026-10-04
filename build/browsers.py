@@ -12,6 +12,9 @@ from colour import blend, rgb
 VERSION = '2026.10.0'
 AUTHOR = 'That Data Person Limited (www.thatdataperson.com)'
 THUNDERBIRD_ID = 'thatdatapurple@thatdataperson.com'
+FIREFOX_ID = '{84d20a3f-e209-4307-8636-7d33094c916b}'  # the ID addons.mozilla.org gave the first upload
+# Firefox asks every add-on to declare what it collects; a theme collects nothing.
+NO_DATA = {'required': ['none']}
 
 
 def roles(p):
@@ -91,6 +94,7 @@ def firefox(p):
         'name': 'ThatDataPurple',
         'description': 'A purple theme for Firefox in the That Data Person brand colours, by That Data Person Limited.',
         'author': AUTHOR,
+        'browser_specific_settings': {'gecko': {'id': FIREFOX_ID, 'data_collection_permissions': NO_DATA}},
         'icons': {'128': 'images/ThatDataPurple.icon.png'},
         'theme': {
             'colors': colors,
@@ -127,7 +131,8 @@ def thunderbird(p):
         'name': 'ThatDataPurple',
         'description': 'A purple theme for Thunderbird in the That Data Person brand colours, by That Data Person Limited.',
         'author': AUTHOR,
-        'browser_specific_settings': {'gecko': {'id': THUNDERBIRD_ID, 'strict_min_version': '128.0'}},
+        'browser_specific_settings': {'gecko': {'id': THUNDERBIRD_ID, 'strict_min_version': '128.0',
+                                                 'data_collection_permissions': NO_DATA}},
         'icons': {'128': 'images/ThatDataPurple.icon.png'},
         'theme_experiment': {'colors': experiment},
         'theme': {

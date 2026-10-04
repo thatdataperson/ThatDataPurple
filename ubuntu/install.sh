@@ -7,6 +7,7 @@ HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DATA="${XDG_DATA_HOME:-$HOME/.local/share}"
 CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}"
 MARK='ThatDataPurple for GNOME apps'
+GNOME_TERMINAL_PROFILE='40507e64-001d-47fb-bceb-9f05fe0426bd'
 
 # Terminal: add the palette and select it in every Ptyxis profile.
 mkdir -p "$DATA/org.gnome.Ptyxis/palettes"
@@ -16,6 +17,17 @@ if gsettings list-schemas | grep -qx org.gnome.Ptyxis; then
         gsettings set "org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/$uuid/" palette 'ThatDataPurple'
     done
     echo "Ptyxis: palette set (open a new window if it doesn't change straight away)"
+fi
+
+# GNOME Terminal (Ubuntu 25.04 and earlier): add a ThatDataPurple profile and make it the default.
+if gsettings list-schemas | grep -qx org.gnome.Terminal.ProfilesList && command -v dconf >/dev/null; then
+    dconf load "/org/gnome/terminal/legacy/profiles:/:$GNOME_TERMINAL_PROFILE/" < "$HERE/terminal/ThatDataPurple.gnome-terminal.dconf"
+    profiles="$(gsettings get org.gnome.Terminal.ProfilesList list)"
+    if [[ "$profiles" != *"$GNOME_TERMINAL_PROFILE"* ]]; then
+        gsettings set org.gnome.Terminal.ProfilesList list "$(echo "$profiles" | sed "s/^@as //; s/]$/, '$GNOME_TERMINAL_PROFILE']/; s/\[, /[/")"
+    fi
+    gsettings set org.gnome.Terminal.ProfilesList default "$GNOME_TERMINAL_PROFILE"
+    echo "GNOME Terminal: ThatDataPurple profile added and set as default"
 fi
 
 # GNOME apps: keep any gtk.css that isn't ours, so uninstall.sh can put it back.
