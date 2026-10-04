@@ -131,7 +131,7 @@ def thunderbird(p):
         'name': 'ThatDataPurple',
         'description': 'A purple theme for Thunderbird in the That Data Person brand colours, by That Data Person Limited.',
         'author': AUTHOR,
-        'browser_specific_settings': {'gecko': {'id': THUNDERBIRD_ID, 'strict_min_version': '128.0',
+        'browser_specific_settings': {'gecko': {'id': THUNDERBIRD_ID, 'strict_min_version': '128.0', 'strict_max_version': '154.*',
                                                  'data_collection_permissions': NO_DATA}},
         'icons': {'128': 'images/ThatDataPurple.icon.png'},
         'theme_experiment': {'colors': experiment},
