@@ -9,7 +9,8 @@ The theme repos are expected to be cloned next to this one:
     ThatDataPurple.Chrome/
     ThatDataPurple.Firefox/   (Firefox, plus Thunderbird in thunderbird/)
 
-The Windows Terminal scheme and the Windows 11 theme pack are written into this repo's windows/ folder.
+The Windows Terminal scheme and the Windows 11 theme pack are written into this repo's windows/ folder, and the
+Ubuntu (GNOME and Ptyxis) theme into its ubuntu/ folder.
 
 Run from anywhere:  python build/build.py  [path-to-folder-holding-the-repos]
 
@@ -28,6 +29,7 @@ sys.path.insert(0, HERE)
 import browsers  # noqa: E402
 import visualstudio  # noqa: E402
 import vs2026  # noqa: E402
+import ubuntu  # noqa: E402
 import vscode  # noqa: E402
 import windows  # noqa: E402
 from colour import contrast  # noqa: E402
@@ -76,6 +78,12 @@ def main():
     for path in windows.build(palette, os.path.join(ROOT, 'windows')):
         print('wrote', path)
     checks += windows.checks(palette)
+
+    # Ubuntu: Ptyxis palette, libadwaita colours and the same wallpaper, under ubuntu/.
+    wallpaper = os.path.join(ROOT, 'windows', 'theme', 'DesktopBackground', windows.WALLPAPER)
+    for path in ubuntu.build(palette, os.path.join(ROOT, 'ubuntu'), wallpaper):
+        print('wrote', path)
+    checks += ubuntu.checks(palette)
 
     failures = [(n, fg, bg, need, contrast(fg, bg)) for n, fg, bg, need in checks if contrast(fg, bg) < need]
     write_report(palette, checks, failures)

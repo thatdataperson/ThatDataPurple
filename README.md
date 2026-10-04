@@ -25,6 +25,8 @@ A purple theme for lots of different apps in the That Data Person brand colours,
   -  [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ThatDataPerson.thatdatapurple)
 - Windows 11 (wallpaper, accent colour and Dark mode) and Windows Terminal
   - [In this repo](windows/) (in the `windows` folder)
+- Ubuntu (GNOME apps, wallpaper and the Ptyxis terminal)
+  - [In this repo](ubuntu/) (in the `ubuntu` folder)
 ---
 
 ### You can also make your own theme for:
@@ -50,6 +52,6 @@ python build/build.py
 
 It writes the VS Code theme JSON, both `.vstheme` files and the Chrome, Firefox and Thunderbird manifests
 (with their store packages in each repo's `bin/Release`), plus the Windows Terminal scheme and Windows 11
-theme pack in `windows/` (the wallpaper needs Pillow and numpy, and the pack needs `makecab`, so Windows only).
+theme pack in `windows/` and the Ubuntu theme in `ubuntu/` (the wallpaper needs Pillow and numpy, and the pack needs `makecab`, so Windows only).
 It then checks contrast, and exits non-zero if any pair falls below its target. The Visual Studio themes are re-coloured from the original exports kept in
 `build/templates/`, so rebuilding always gives the same result.
