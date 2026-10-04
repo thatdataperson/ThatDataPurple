@@ -32,3 +32,20 @@ Theme Park is a Good Lock module from Samsung. Install Good Lock from the Galaxy
 | Text on brand purple | `#FFFFFF` |
 
 These pairs meet WCAG AA (4.5:1): text on the background, cards and keys, and white on brand purple.
+
+### Theme Park colour fields
+Theme Park's theme editor asks for these colours by name:
+
+| Field | Colour |
+|---|---|
+| Background | `#0D0629` (brand dark) |
+| On background | `#ECE8FA` |
+| Surface | `#1B1048` |
+| On surface | `#ECE8FA` |
+| Primary | `#4320CC` (brand purple) |
+| On primary | `#FFFFFF` |
+| Secondary | `#9580E6` (light purple) |
+| Error | `#FF7A8A` |
+| Highlight | `#B9A8FF` |
+
+If Highlight shows up as a fill behind selected items and the text on it is hard to read, use `#33247D` (the palette's selection colour) instead.
