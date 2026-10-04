@@ -10,7 +10,8 @@ The theme repos are expected to be cloned next to this one:
     ThatDataPurple.Firefox/   (Firefox, plus Thunderbird in thunderbird/)
 
 The Windows Terminal scheme and the Windows 11 theme pack are written into this repo's windows/ folder, and the
-Ubuntu (GNOME and Ptyxis) theme into its ubuntu/ folder.
+Ubuntu (GNOME, Ptyxis and GNOME Terminal) theme into its ubuntu/ folder, and the Samsung Galaxy wallpaper
+into samsung/.
 
 Run from anywhere:  python build/build.py  [path-to-folder-holding-the-repos]
 
@@ -27,6 +28,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
 import browsers  # noqa: E402
+import samsung  # noqa: E402
 import visualstudio  # noqa: E402
 import vs2026  # noqa: E402
 import ubuntu  # noqa: E402
@@ -84,6 +86,9 @@ def main():
     for path in ubuntu.build(palette, os.path.join(ROOT, 'ubuntu'), wallpaper):
         print('wrote', path)
     checks += ubuntu.checks(palette)
+
+    for path in samsung.build(palette, os.path.join(ROOT, 'samsung')):
+        print('wrote', path)
 
     failures = [(n, fg, bg, need, contrast(fg, bg)) for n, fg, bg, need in checks if contrast(fg, bg) < need]
     write_report(palette, checks, failures)

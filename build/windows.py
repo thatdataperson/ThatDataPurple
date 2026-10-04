@@ -134,16 +134,19 @@ def theme_file(p):
     ])
 
 
-def wallpaper(p, out, size=3840):
+def wallpaper(p, out, size=3840, height=None):
     """A diagonal shift from brand dark (top left) to brand purple (bottom right), with no logo or text.
 
-    Square, so 'fill' crops it sensibly on landscape and portrait screens alike."""
+    Square by default, so 'fill' crops it sensibly on landscape and portrait screens alike. Pass a height
+    for a screen-sized version (the phone wallpapers)."""
     import numpy as np
     from PIL import Image
 
     from colour import rgb
 
-    yy, xx = np.mgrid[0:size, 0:size].astype(np.float32) / (size - 1)
+    height = height or size
+    yy, xx = np.mgrid[0:height, 0:size].astype(np.float32)
+    yy, xx = yy / (height - 1), xx / (size - 1)
     t = np.clip((xx + yy) / 2, 0, 1)
     t = t * t * (3 - 2 * t)  # smoothstep: longer dark and purple ends, soft middle
     dark, purple = (np.array(rgb(p['brand'][k]), np.float32) for k in ('dark', 'purple'))
