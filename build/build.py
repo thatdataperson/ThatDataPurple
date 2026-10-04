@@ -29,6 +29,7 @@ sys.path.insert(0, HERE)
 
 import browsers  # noqa: E402
 import samsung  # noqa: E402
+import ssms  # noqa: E402
 import visualstudio  # noqa: E402
 import vs2026  # noqa: E402
 import ubuntu  # noqa: E402
@@ -69,6 +70,10 @@ def main():
             cats = vs2026.categories(palette)
             out = out.replace('\t</Theme>', vs2026.xml(cats) + '\t</Theme>', 1)
             checks += vs2026.checks(cats, version)
+            # It also installs on SSMS 22, whose query results have their own colour categories.
+            cats = ssms.categories(palette)
+            out = out.replace('\t</Theme>', ssms.xml(cats) + '\t</Theme>', 1)
+            checks += ssms.checks(cats, version)
         with open(path, 'w', encoding='utf-8-sig', newline='') as f:
             f.write(out)
         checks += r.checks
